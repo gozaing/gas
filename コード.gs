@@ -1,4 +1,3 @@
-const ssId = '1bWFJJRvfgbPuLUCG5K1PbqHxGyQ9dIRJoSdxzW5241Y';
 const ssConfig = 'config';
 const ssMessage = 'slack';
 let postUrl = '';
@@ -12,7 +11,7 @@ function slack_notify() {
 }
 
 function set_config() {  
-  const ss = SpreadsheetApp.openById(ssId);
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
   const sheet = ss.getSheetByName(ssConfig);
   const lastRow = sheet.getLastRow();
   const lastCol = sheet.getLastColumn();
@@ -25,7 +24,7 @@ function set_config() {
 }
 
 function get_message() {
-  const ss = SpreadsheetApp.openById(ssId);
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
   const sheet = ss.getSheetByName(ssMessage);
   const lastRow = sheet.getLastRow();
   const lastCol = sheet.getLastColumn();
@@ -41,18 +40,12 @@ function get_message() {
   let youbiIndex = 0;
   if (formattedDate === '7') {
     // 日曜のときは月曜を見たいのでIndex=0
-    Logger.log('case 7');
     youbiIndex = 0;
   } else {
-    Logger.log('case else');
     // 日曜以外はリストindexとfomattedDateが+1違うので、そのまま利用
     youbiIndex = formattedDate;
   }
-  Logger.log(formattedDate);
-  Logger.log(typeof(formattedDate));
-  Logger.log(arrMessage);
-  Logger.log(youbiIndex);
-
+  
   const message = arrMessage[youbiIndex].join();
 
   return message;
