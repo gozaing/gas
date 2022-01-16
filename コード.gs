@@ -30,9 +30,30 @@ function get_message() {
   const lastRow = sheet.getLastRow();
   const lastCol = sheet.getLastColumn();
   const arrMessage = sheet.getRange(1, 1, lastRow, lastCol).getValues();
+  
+  // 実行日の曜日を取得
+  // Utilities.formatDate format=uは曜日(1=月曜〜7=日曜）で返す。Date().getDayだとGMTとJSTの差がでる
+  const formattedDate = Utilities.formatDate(new Date(), "JST", "u");
 
-  const youbiNum = new Date().getDay();
-  const message = arrMessage[youbiNum].join();
+  // =============================
+  // 実行日の次の日の内容を見るため
+  // =============================
+  let youbiIndex = 0;
+  if (formattedDate === '7') {
+    // 日曜のときは月曜を見たいのでIndex=0
+    Logger.log('case 7');
+    youbiIndex = 0;
+  } else {
+    Logger.log('case else');
+    // 日曜以外はリストindexとfomattedDateが+1違うので、そのまま利用
+    youbiIndex = formattedDate;
+  }
+  Logger.log(formattedDate);
+  Logger.log(typeof(formattedDate));
+  Logger.log(arrMessage);
+  Logger.log(youbiIndex);
+
+  const message = arrMessage[youbiIndex].join();
 
   return message;
 
