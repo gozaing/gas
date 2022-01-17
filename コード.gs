@@ -43,7 +43,7 @@ function get_message() {
     youbiIndex = 0;
   } else {
     // 日曜以外はリストindexとfomattedDateが+1違うので、そのまま利用
-    youbiIndex = formattedDate;
+    youbiIndex = parseInt(formattedDate, 10);
   }
   
   const message = arrMessage[youbiIndex].join();
